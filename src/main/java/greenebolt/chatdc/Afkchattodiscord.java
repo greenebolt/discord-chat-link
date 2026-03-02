@@ -123,6 +123,14 @@ public class Afkchattodiscord implements ModInitializer {
 								)
 				)
 		);
+		ClientCommandRegistrationCallback.EVENT.register(
+				(dispatcher, registryAccess) -> dispatcher.register(
+
+						ClientCommandManager.literal("quit")
+								.executes(Afkchattodiscord::quit)
+
+				)
+		);
 
 		LOGGER.info("Afk-Chat-To-Discord is active...");
 	}
@@ -157,17 +165,20 @@ public class Afkchattodiscord implements ModInitializer {
 		Minecraft.getInstance().player.displayClientMessage(msg, false);
 		return 1;
 	}
+	private static int quit(CommandContext<FabricClientCommandSource> context){
+		assert Minecraft.getInstance().player != null;
+		Disconnect();
+		return 1;
+	}
 	public static void Disconnect() {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.getSingleplayerServer() != null) {
-			// Execute on the client thread
 			mc.execute(() -> {
-				IntegratedServer server = mc.getSingleplayerServer();
-				if (server != null) {
-					server.stopServer(); // direct call, but only if you don’t care about in-progress lighting
-				}
-				mc.disconnect(null, false);
+					mc.disconnectFromWorld(Component.translatable("Quit game"));
 			});
+			return;
 		}
+		if (mc.player == null) return;
+		mc.disconnect(new TitleScreen(), false);
 	}
 }
