@@ -1,16 +1,13 @@
 package greenebolt.chatdc;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 public class Config {
     private static final Properties defaultValues = new Properties();
     public static String fileName;
 
-    public static String configVersion = Afkchattodiscord.VERSION;
+    public static String configVersion = DiscordChatLink.VERSION;
     public static String BOT_TOKEN = "";
     public static String GUILD_ID = "";
     public static String CHANNEL_ID = "";
@@ -28,11 +25,11 @@ public class Config {
             configReader.close();
         } catch (FileNotFoundException ignored) {
             // If the config does not exist, generate the default one.
-            Afkchattodiscord.LOGGER.info("Generating the config file at: " + fileName);
+            DiscordChatLink.LOGGER.info("Generating the config file at: " + fileName);
             save();
             return;
         } catch (IOException e) {
-            Afkchattodiscord.LOGGER.info("Failed to read the config file: " + fileName);
+            DiscordChatLink.LOGGER.info("Failed to read the config file: " + fileName);
             e.printStackTrace();
         }
 
@@ -56,7 +53,7 @@ public class Config {
 
             FileWriter configWriter = new FileWriter(config);
 
-            writeString(configWriter, "CONFIG_VERSION", Afkchattodiscord.VERSION);
+            writeString(configWriter, "CONFIG_VERSION", DiscordChatLink.VERSION);
             writeString(configWriter, "BOT_TOKEN", BOT_TOKEN);
             writeString(configWriter, "GUILD_ID", GUILD_ID);
             writeString(configWriter, "CHANNEL_ID", CHANNEL_ID);
@@ -64,9 +61,9 @@ public class Config {
             configWriter.close();
 
             if (!existed)
-                Afkchattodiscord.LOGGER.info("Created the config file.");
+                DiscordChatLink.LOGGER.info("Created the config file.");
         } catch (IOException e) {
-            Afkchattodiscord.LOGGER.info("Failed to write the config file: " + fileName);
+            DiscordChatLink.LOGGER.info("Failed to write the config file: " + fileName);
             e.printStackTrace();
         }
     }

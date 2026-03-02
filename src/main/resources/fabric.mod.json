@@ -16,7 +16,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"greenebolt.chatdc.Afkchattodiscord"
+          "greenebolt.chatdc.DiscordChatLink"
 		]
 	},
 	"mixins": [
