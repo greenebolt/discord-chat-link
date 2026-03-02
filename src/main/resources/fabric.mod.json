@@ -12,7 +12,7 @@
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/afk-chat-to-discord/icon.png",
+	"icon": "assets/discord-chat-link/icon.jpg",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -20,7 +20,7 @@
 		]
 	},
 	"mixins": [
-		"afk-chat-to-discord.mixins.json"
+      "discord-chat-link.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.18.4",
