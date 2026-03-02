@@ -1,1 +1,1 @@
-# afk-chat-to-discord
+# discord-chat-link
