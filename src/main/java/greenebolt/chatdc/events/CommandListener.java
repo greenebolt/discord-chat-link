@@ -3,13 +3,18 @@ package greenebolt.chatdc.events;
 import greenebolt.chatdc.utils.Util;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.minecraft.client.Minecraft;
 
 public class CommandListener extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         switch (event.getName()) {
             case "quit" -> {
-                event.reply("Quitting...").setEphemeral(true).queue();
+                if (Minecraft.getInstance().player == null) {
+                    event.reply("Can not quit: You are not connected to a world.").setEphemeral(true).queue();
+                    return;
+                }
+                event.reply("You left the game.").setEphemeral(true).queue();
                 Util.Disconnect();
             }
             case "health" -> event.reply(Util.getHealth()).setEphemeral(true).queue();

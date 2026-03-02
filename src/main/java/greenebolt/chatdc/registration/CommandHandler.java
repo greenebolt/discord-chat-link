@@ -47,6 +47,20 @@ public class CommandHandler {
         ClientCommandRegistrationCallback.EVENT.register(
                 (dispatcher, registryAccess) -> dispatcher.register(
 
+                        ClientCommandManager.literal("start-discord-chat-link")
+                                .executes(CommandHandler::start)
+                )
+        );
+        ClientCommandRegistrationCallback.EVENT.register(
+                (dispatcher, registryAccess) -> dispatcher.register(
+
+                        ClientCommandManager.literal("stop-discord-chat-link")
+                                .executes(CommandHandler::stop)
+                )
+        );
+        ClientCommandRegistrationCallback.EVENT.register(
+                (dispatcher, registryAccess) -> dispatcher.register(
+
                         ClientCommandManager.literal("quit")
                                 .executes(CommandHandler::quit)
 
@@ -87,6 +101,16 @@ public class CommandHandler {
     private static int quit(CommandContext<FabricClientCommandSource> context){
         assert Minecraft.getInstance().player != null;
         Util.Disconnect();
+        return 1;
+    }
+    private static int start(CommandContext<FabricClientCommandSource> context){
+        assert Minecraft.getInstance().player != null;
+        Util.Start();
+        return 1;
+    }
+    private static int stop(CommandContext<FabricClientCommandSource> context){
+        assert Minecraft.getInstance().player != null;
+        Util.Stop();
         return 1;
     }
 }

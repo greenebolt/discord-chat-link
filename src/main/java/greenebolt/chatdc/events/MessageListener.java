@@ -13,7 +13,8 @@ public class MessageListener extends ListenerAdapter {
         super.onMessageReceived(event);
         if (!event.getAuthor().isBot()) {
 
-            String recievedMessage = event.getMessage().getContentDisplay();
+            String recievedMessage = event.getMessage().getContentDisplay().replaceAll("(\\r|\\n)", " ");
+            recievedMessage = recievedMessage.replaceAll("\\uFE0F|\\u200D", "");
             DiscordChatLink.LOGGER.info("Recieved: " + recievedMessage);
 
             if (!event.getChannel().getId().equals(Config.CHANNEL_ID)) {
@@ -26,7 +27,14 @@ public class MessageListener extends ListenerAdapter {
 
             if (mc.player == null) {
                 if (DiscordChatLink.JDAActive) {
-                    DiscordChatLink.channel.sendMessage("Cannot send chat message:         ").queue();
+                    DiscordChatLink.channel.sendMessage("Cannot send chat message: You are not connected to a world.").queue();
+                }
+                return;
+            }
+
+            if (recievedMessage.length() > 256) {
+                if (DiscordChatLink.JDAActive) {
+                    DiscordChatLink.channel.sendMessage("Cannot send chat message: It exceeds the Minecraft character limit.").queue();
                 }
                 return;
             }

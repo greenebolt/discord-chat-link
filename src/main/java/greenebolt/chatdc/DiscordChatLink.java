@@ -1,9 +1,11 @@
 package greenebolt.chatdc;
 
+import greenebolt.chatdc.events.CommandListener;
 import greenebolt.chatdc.registration.ChatListeners;
 import greenebolt.chatdc.registration.CommandHandler;
 import greenebolt.chatdc.events.BotReady;
 import greenebolt.chatdc.events.MessageListener;
+import greenebolt.chatdc.utils.Util;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -13,19 +15,22 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 public class DiscordChatLink implements ModInitializer {
-	public static final String MOD_ID = "afk-chat-to-discord";
+	public static final String MOD_ID = "discord-chat-link";
 	public static final String VERSION = "1.0.0";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static Config config;
 	public static boolean JDAActive = false;
+	public static JDA jda;
 	public static TextChannel channel;
 
 	@Override
@@ -33,7 +38,7 @@ public class DiscordChatLink implements ModInitializer {
 
 		// Initialize config
 		Minecraft mc = Minecraft.getInstance();
-		config = new Config(mc.gameDirectory.getAbsolutePath() + File.separator + "config" + File.separator + "ChatToDiscordConfig.cfg");
+		config = new Config(mc.gameDirectory.getAbsolutePath() + File.separator + "config" + File.separator + "DiscordChatLinkConfig.cfg");
 		config.read();
 
 		InitializeDiscrdBot();
@@ -41,13 +46,20 @@ public class DiscordChatLink implements ModInitializer {
 		CommandHandler.register();
 		ChatListeners.register();
 
-		LOGGER.info("Afk-Chat-To-Discord is active...");
+		LOGGER.info("Discord Chat Link is active...");
 
 	}
 
-	private void InitializeDiscrdBot() {
+	public static void InitializeDiscrdBot() {
 
-		if (Config.BOT_TOKEN.equals("")) return;
+		if (Config.BOT_TOKEN.equals("") || Config.GUILD_ID.equals("") || Config.CHANNEL_ID.equals("")) {
+			LOGGER.info("Config not properly configured: Abandoning Bot Init...");
+			Minecraft mc = Minecraft.getInstance();
+			if (mc.player == null) return;
+			mc.player.displayClientMessage(Component.translatable("Config not properly configured: Abandoning Bot Init...").withStyle(ChatFormatting.RED), false);
+			Util.SendConfigMessage(mc);
+			return;
+		}
 
 		JDABuilder jdaBuilder = JDABuilder.createLight(Config.BOT_TOKEN);
 		jdaBuilder.enableIntents(
@@ -56,11 +68,12 @@ public class DiscordChatLink implements ModInitializer {
 		);
 		jdaBuilder.addEventListeners(
 				new MessageListener(),
-				new BotReady()
+				new BotReady(),
+				new CommandListener()
 		);
 
 		try {
-			JDA jda = jdaBuilder.build();
+			jda = jdaBuilder.build();
 
 			CommandListUpdateAction commands = jda.updateCommands();
 			commands.addCommands(
