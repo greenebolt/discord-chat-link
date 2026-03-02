@@ -1,5 +1,6 @@
 package greenebolt.chatdc.registration;
 
+import greenebolt.chatdc.DiscordChatLink;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 
 public class ChatListeners {
@@ -7,21 +8,21 @@ public class ChatListeners {
         ClientReceiveMessageEvents.GAME.register((message, timestamp) -> {
             try {
                 String text = message.getString();
-                if (JDAActive) {
-                    channel.sendMessage(text).queue();
+                if (DiscordChatLink.JDAActive) {
+                    DiscordChatLink.channel.sendMessage(text).queue();
                 }
             } catch (Exception e) {
-                LOGGER.error("Error in chat listener", e);
+                DiscordChatLink.LOGGER.error("Error in chat listener", e);
             }
         });
         ClientReceiveMessageEvents.CHAT.register((message, signedMessage, sender, params, timestamp) -> {
             try {
                 String text = message.getString();
-                if (JDAActive) {
-                    channel.sendMessage(text).queue();
+                if (DiscordChatLink.JDAActive) {
+                    DiscordChatLink.channel.sendMessage(text).queue();
                 }
             } catch (Exception e) {
-                LOGGER.error("Error in chat listener", e);
+                DiscordChatLink.LOGGER.error("Error in chat listener", e);
             }
         });
     }
