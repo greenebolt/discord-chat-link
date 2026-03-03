@@ -23,7 +23,9 @@ public class Util {
             return;
         }
         if (mc.player == null) return;
-        mc.disconnect(new TitleScreen(), false);
+        mc.execute(() -> {
+            mc.disconnect(new TitleScreen(), false);
+        });
     }
     public static void Start() {
         if (DiscordChatLink.JDAActive) {
