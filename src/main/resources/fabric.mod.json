@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "afk-chat-to-discord",
+	"id": "discord-chat-link",
 	"version": "${version}",
-	"name": "afk-chat-to-discord",
+	"name": "discord-chat-link",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
 		"Me!"

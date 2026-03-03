@@ -1,5 +1,5 @@
 plugins {
-	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -31,9 +31,22 @@ dependencies {
 	implementation("net.dv8tion:JDA:6.3.1") { // replace $version with the latest version
 		// Optionally disable audio natives to reduce jar size by excluding `opus-java` and `tink`
 		// Gradle DSL:
-		exclude module: 'opus-java' // required for encoding audio into opus, not needed if audio is already provided in opus encoding
+		exclude module: 'opus-java'
+		// required for encoding audio into opus, not needed if audio is already provided in opus encoding
 		exclude module: 'tink' // required for encrypting and decrypting audio
 	}
+
+	// Bundle JDA Stuff
+	include("net.dv8tion:JDA:6.3.1")
+	// Bundle JDA runtime deps (required) https://repo1.maven.org/maven2/net/dv8tion/JDA/6.3.1/JDA-6.3.1.pom
+	include("com.squareup.okhttp3:okhttp:4.12.0")
+	include("com.squareup.okio:okio:3.6.0")
+	include("com.neovisionaries:nv-websocket-client:2.14")
+	include("net.sf.trove4j:trove4j:3.0.3")
+	include("com.fasterxml.jackson.core:jackson-core:2.17.1")
+	include("com.fasterxml.jackson.core:jackson-databind:2.17.1")
+	include("com.fasterxml.jackson.core:jackson-annotations:2.17.1")
+	include("org.apache.commons:commons-collections4:4.4")
 }
 
 processResources {
