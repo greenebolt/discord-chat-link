@@ -12,6 +12,7 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 
+import java.io.File;
 import java.net.URI;
 
 public class Util {
@@ -82,6 +83,22 @@ public class Util {
             if (error != null)
                 client.player.displayClientMessage(Component.translatable(error).withStyle(ChatFormatting.RED), false);
         });
+    }
 
+    public static File GetMostRecentFile(String directoryPath) {
+        File directory = new File(directoryPath);
+        File[] files = directory.listFiles();
+
+        if (files == null || files.length == 0) {
+            return null;
+        }
+
+        File mostRecentFile = files[0];
+        for (int i = 1; i < files.length; i++) {
+            if (files[i].lastModified() > mostRecentFile.lastModified()) {
+                mostRecentFile = files[i];
+            }
+        }
+        return mostRecentFile;
     }
 }

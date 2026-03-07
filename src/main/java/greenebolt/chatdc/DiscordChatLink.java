@@ -83,6 +83,9 @@ public class DiscordChatLink implements ModInitializer {
 							.setDefaultPermissions(DefaultMemberPermissions.DISABLED),
 					Commands.slash("hunger", "Gets player hunger")
 							.setContexts(InteractionContextType.GUILD)
+							.setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+					Commands.slash("screenshot", "Takes a screenshot of your game")
+							.setContexts(InteractionContextType.GUILD)
 							.setDefaultPermissions(DefaultMemberPermissions.DISABLED)
 			);
 			commands.queue();
