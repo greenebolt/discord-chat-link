@@ -30,7 +30,7 @@ public class ChatListeners {
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             if (DiscordChatLink.JDAActive) return;
-            Util.SendConfigMessage(client);
+            Util.SendConfigMessage(client, null);
         });
     }
 }

@@ -110,7 +110,7 @@ public class CommandHandler {
     }
     private static int stop(CommandContext<FabricClientCommandSource> context){
         assert Minecraft.getInstance().player != null;
-        Util.Stop();
+        Util.Stop("CommandHandler");
         return 1;
     }
 }

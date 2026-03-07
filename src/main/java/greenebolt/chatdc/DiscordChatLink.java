@@ -31,10 +31,12 @@ public class DiscordChatLink implements ModInitializer {
 	public static Config config;
 	public static boolean JDAActive = false;
 	public static JDA jda;
-	public static TextChannel channel;
+	public static TextChannel channel = null;
 
 	@Override
 	public void onInitialize() {
+
+		LOGGER.info("Discord Chat Link: Initializing!");
 
 		// Initialize config
 		Minecraft mc = Minecraft.getInstance();
@@ -45,19 +47,15 @@ public class DiscordChatLink implements ModInitializer {
 
 		CommandHandler.register();
 		ChatListeners.register();
-
-		LOGGER.info("Discord Chat Link is active...");
-
 	}
 
 	public static void InitializeDiscrdBot() {
 
+		config.read();
 		if (Config.BOT_TOKEN.equals("") || Config.GUILD_ID.equals("") || Config.CHANNEL_ID.equals("")) {
 			LOGGER.info("Config not properly configured: Abandoning Bot Init...");
 			Minecraft mc = Minecraft.getInstance();
-			if (mc.player == null) return;
-			mc.player.displayClientMessage(Component.translatable("Config not properly configured: Abandoning Bot Init...").withStyle(ChatFormatting.RED), false);
-			Util.SendConfigMessage(mc);
+			Util.SendConfigMessage(mc, "Config not properly configured: Abandoning Bot Init...");
 			return;
 		}
 
@@ -91,6 +89,12 @@ public class DiscordChatLink implements ModInitializer {
 
 		} catch (Exception e) {
 			LOGGER.info("Error with loading discord bot: " + e);
+			if (Minecraft.getInstance().player == null) return;
+			if (e.toString().contains("The provided token is invalid!")) {
+				Util.SendConfigMessage(Minecraft.getInstance(), "Error with loading discord bot: The provided token is invalid. Use /set-discord-bot-token");
+				return;
+			}
+			Minecraft.getInstance().player.displayClientMessage(Component.translatable("Error with loading discord bot: " + e).withStyle(ChatFormatting.RED), false);
 		}
 
 	}

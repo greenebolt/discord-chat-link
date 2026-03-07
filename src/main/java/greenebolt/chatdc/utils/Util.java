@@ -10,6 +10,7 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
+import net.minecraft.world.entity.player.Player;
 
 import java.net.URI;
 
@@ -42,14 +43,18 @@ public class Util {
         Minecraft.getInstance().player.displayClientMessage(Component.translatable("Starting Discord Chat Link... ").withStyle(ChatFormatting.GREEN), false);
         DiscordChatLink.InitializeDiscrdBot();
     }
-    public static void Stop() {
+    public static void Stop(String caller) {
+
+        Player player = Minecraft.getInstance().player;
         if (DiscordChatLink.JDAActive) {
-            DiscordChatLink.JDAActive = false;
-            DiscordChatLink.jda.shutdown();
-            Minecraft.getInstance().player.displayClientMessage(Component.translatable("Discord bot is shutting down...").withStyle(ChatFormatting.GREEN), false);
-            return;
+            if (player != null && caller.equals("CommandHandler")) player.displayClientMessage(Component.translatable("Discord bot is shutting down...").withStyle(ChatFormatting.GREEN), false);
+        } else {
+            if (player != null && caller.equals("CommandHandler")) player.displayClientMessage(Component.translatable("Discord bot is already offline or shutting down...").withStyle(ChatFormatting.RED), false);
         }
-        Minecraft.getInstance().player.displayClientMessage(Component.translatable("Discord bot is already offline or shutting down...").withStyle(ChatFormatting.RED), false);
+
+        DiscordChatLink.LOGGER.info("Stopping Discord Bot");
+        DiscordChatLink.jda.shutdown();
+        DiscordChatLink.JDAActive = false;
     }
     public static String getHealth() {
         Minecraft mc = Minecraft.getInstance();
@@ -61,7 +66,8 @@ public class Util {
         if (mc.player == null) return "NA: You are not connected to a world.";
         return "Player Hunger: " + Math.round(mc.player.getFoodData().getFoodLevel() * 100)/100 + "/20, Saturation: " + Math.round(mc.player.getFoodData().getSaturationLevel()*100)/100 + "/20";
     }
-    public static void SendConfigMessage(Minecraft client) {
+    public static void SendConfigMessage(Minecraft client, String error) {
+        if (client.player == null) return;
         String url = "https://github.com/greenebolt/discord-chat-link";
         ClickEvent click = new ClickEvent.OpenUrl(URI.create(url));
         HoverEvent hoverEvent = new HoverEvent.ShowText(Component.translatable(url));
@@ -70,6 +76,12 @@ public class Util {
                         .withClickEvent(click)
                         .withHoverEvent(hoverEvent)
                         .withColor(ChatFormatting.GREEN));
-        client.player.displayClientMessage(msg, false);
+
+        client.execute(() -> {
+            client.player.displayClientMessage(msg, false);
+            if (error != null)
+                client.player.displayClientMessage(Component.translatable(error).withStyle(ChatFormatting.RED), false);
+        });
+
     }
 }
