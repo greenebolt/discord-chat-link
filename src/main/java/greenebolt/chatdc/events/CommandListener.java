@@ -4,7 +4,9 @@ import greenebolt.chatdc.DiscordChatLink;
 import greenebolt.chatdc.utils.Util;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.utils.FileUpload;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.network.chat.Component;
@@ -34,14 +36,13 @@ public class CommandListener extends ListenerAdapter {
                     event.reply("Taking Screenshot...").setEphemeral(true).queue();
                     Screenshot.grab(mc.gameDirectory, mc.getMainRenderTarget(), message -> mc.execute(() -> {
 
-                        if (mc.player != null) mc.player.displayClientMessage(Component.translatable("Took Screenshot"), false);
+                        if (mc.player != null) mc.player.displayClientMessage(Component.translatable("Discord Took Screenshot...").withStyle(ChatFormatting.UNDERLINE), false);
                         File screenshot = Util.GetMostRecentFile(mc.gameDirectory + "/screenshots");
                         DiscordChatLink.channel.sendFiles(FileUpload.fromData(screenshot)).queue();
 
                     }));
                 });
             }
-
         }
     }
 }

@@ -39,8 +39,8 @@ public class MessageListener extends ListenerAdapter {
                 return;
             }
 
-            if (recievedMessage.startsWith("//")) {
-                mc.player.connection.sendCommand(recievedMessage.replaceFirst("//", ""));
+            if (recievedMessage.startsWith("/") || recievedMessage.startsWith("//")) {
+                mc.player.connection.sendCommand(recievedMessage.replaceAll("//", ""));
             } else {
                 mc.player.connection.sendChat(recievedMessage);
             }

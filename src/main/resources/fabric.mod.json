@@ -19,9 +19,6 @@
           "greenebolt.chatdc.DiscordChatLink"
 		]
 	},
-	"mixins": [
-      "discord-chat-link.mixins.json"
-	],
 	"depends": {
 		"fabricloader": ">=0.18.4",
 		"minecraft": "~1.21.11",
