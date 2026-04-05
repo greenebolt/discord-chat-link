@@ -27,26 +27,6 @@ public class CommandHandler {
         ClientCommandRegistrationCallback.EVENT.register(
                 (dispatcher, registryAccess) -> dispatcher.register(
 
-                        ClientCommandManager.literal("set-discord-server-id")
-                                .then(
-                                        ClientCommandManager.argument("id", StringArgumentType.string())
-                                                .executes(CommandHandler::setGuild)
-                                )
-                )
-        );
-        ClientCommandRegistrationCallback.EVENT.register(
-                (dispatcher, registryAccess) -> dispatcher.register(
-
-                        ClientCommandManager.literal("set-discord-channel-id")
-                                .then(
-                                        ClientCommandManager.argument("id", StringArgumentType.string())
-                                                .executes(CommandHandler::setChannel)
-                                )
-                )
-        );
-        ClientCommandRegistrationCallback.EVENT.register(
-                (dispatcher, registryAccess) -> dispatcher.register(
-
                         ClientCommandManager.literal("start-discord-chat-link")
                                 .executes(CommandHandler::start)
                 )
@@ -56,14 +36,6 @@ public class CommandHandler {
 
                         ClientCommandManager.literal("stop-discord-chat-link")
                                 .executes(CommandHandler::stop)
-                )
-        );
-        ClientCommandRegistrationCallback.EVENT.register(
-                (dispatcher, registryAccess) -> dispatcher.register(
-
-                        ClientCommandManager.literal("quit")
-                                .executes(CommandHandler::quit)
-
                 )
         );
     }
@@ -76,31 +48,6 @@ public class CommandHandler {
         Component msg = Component.translatable("Set discord bot token to: \"%s\"", token)
                 .withStyle(ChatFormatting.GREEN);
         Minecraft.getInstance().player.displayClientMessage(msg, false);
-        return 1;
-    }
-    private static int setGuild(CommandContext<FabricClientCommandSource> context){
-        assert Minecraft.getInstance().player != null;
-        String id = StringArgumentType.getString(context, "id");
-        Config.GUILD_ID = id;
-        Config.save();
-        Component msg = Component.translatable("Set discord bot server ID to: \"%s\"", id)
-                .withStyle(ChatFormatting.GREEN);
-        Minecraft.getInstance().player.displayClientMessage(msg, false);
-        return 1;
-    }
-    private static int setChannel(CommandContext<FabricClientCommandSource> context){
-        assert Minecraft.getInstance().player != null;
-        String id = StringArgumentType.getString(context, "id");
-        Config.CHANNEL_ID = id;
-        Config.save();
-        Component msg = Component.translatable("Set discord bot channel ID to: \"%s\"", id)
-                .withStyle(ChatFormatting.GREEN);
-        Minecraft.getInstance().player.displayClientMessage(msg, false);
-        return 1;
-    }
-    private static int quit(CommandContext<FabricClientCommandSource> context){
-        assert Minecraft.getInstance().player != null;
-        Util.Disconnect();
         return 1;
     }
     private static int start(CommandContext<FabricClientCommandSource> context){

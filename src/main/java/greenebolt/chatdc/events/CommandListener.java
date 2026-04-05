@@ -1,5 +1,6 @@
 package greenebolt.chatdc.events;
 
+import greenebolt.chatdc.Config;
 import greenebolt.chatdc.DiscordChatLink;
 import greenebolt.chatdc.utils.Util;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -17,6 +18,15 @@ public class CommandListener extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         switch (event.getName()) {
+
+            case "setchannel" -> {
+                event.reply("Set this channel to your default connection point!").queue();
+                Config.GUILD_ID = event.getGuild().getId();
+                Config.CHANNEL_ID = event.getChannelId();
+                Config.save();
+                DiscordChatLink.channel = event.getChannel().asTextChannel();
+                DiscordChatLink.JDAActive = true;
+            }
 
             case "quit" -> {
                 if (Minecraft.getInstance().player == null) {

@@ -1,5 +1,6 @@
 package greenebolt.chatdc.registration;
 
+import greenebolt.chatdc.Config;
 import greenebolt.chatdc.DiscordChatLink;
 import greenebolt.chatdc.utils.Util;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
@@ -30,7 +31,11 @@ public class ChatListeners {
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             if (DiscordChatLink.JDAActive) return;
-            Util.SendConfigMessage(client, null);
+            if (Config.BOT_TOKEN.equals("")) {
+                Util.SendConfigMessage(client, "No discord bot token is defined. Use /set-bot-token");
+                return;
+            }
+            Util.SendConfigMessage(client, "No discord channel is defined. Use /setchannel command from discord.");
         });
     }
 }

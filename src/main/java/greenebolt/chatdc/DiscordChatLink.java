@@ -52,10 +52,10 @@ public class DiscordChatLink implements ModInitializer {
 	public static void InitializeDiscrdBot() {
 
 		config.read();
-		if (Config.BOT_TOKEN.equals("") || Config.GUILD_ID.equals("") || Config.CHANNEL_ID.equals("")) {
-			LOGGER.info("Config not properly configured: Abandoning Bot Init...");
+		if (Config.BOT_TOKEN.equals("")) {
+			LOGGER.info("Config not properly configured: Configure Bot Token");
 			Minecraft mc = Minecraft.getInstance();
-			Util.SendConfigMessage(mc, "Config not properly configured: Abandoning Bot Init...");
+			Util.SendConfigMessage(mc, "Config not properly configured: use /set-discord-bot-token");
 			return;
 		}
 
@@ -75,6 +75,9 @@ public class DiscordChatLink implements ModInitializer {
 
 			CommandListUpdateAction commands = jda.updateCommands();
 			commands.addCommands(
+					Commands.slash("setchannel", "Run in the channel that you want to use for DCL")
+							.setContexts(InteractionContextType.GUILD)
+							.setDefaultPermissions(DefaultMemberPermissions.DISABLED),
 					Commands.slash("quit", "Leave the server/world")
 							.setContexts(InteractionContextType.GUILD)
 							.setDefaultPermissions(DefaultMemberPermissions.DISABLED),
