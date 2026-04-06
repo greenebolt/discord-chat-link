@@ -32,10 +32,10 @@ public class ChatListeners {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             if (DiscordChatLink.JDAActive) return;
             if (Config.BOT_TOKEN.equals("")) {
-                Util.SendConfigMessage(client, "No discord bot token is defined. Use /set-bot-token");
+                Util.SendConfigMessage(client, "No discord bot token is defined: Do /set-discord-bot-token");
                 return;
             }
-            Util.SendConfigMessage(client, "No discord channel is defined. Use /setchannel command from discord.");
+            Util.SendConfigMessage(client, "No discord channel is defined: Do /setchannel command from discord.");
         });
     }
 }

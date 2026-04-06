@@ -12,6 +12,8 @@ public class Config {
     public static String GUILD_ID = "";
     public static String CHANNEL_ID = "";
 
+    public static String CurrentDCLError = "";
+
     Config(String fileName) {
         this.fileName = fileName;
     }

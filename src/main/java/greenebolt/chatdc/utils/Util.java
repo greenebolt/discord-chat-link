@@ -2,7 +2,6 @@ package greenebolt.chatdc.utils;
 
 import greenebolt.chatdc.DiscordChatLink;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
@@ -72,7 +71,9 @@ public class Util {
         String url = "https://github.com/greenebolt/discord-chat-link";
         ClickEvent click = new ClickEvent.OpenUrl(URI.create(url));
         HoverEvent hoverEvent = new HoverEvent.ShowText(Component.translatable(url));
-        Component msg = Component.translatable("Discord bot is not initialized:\n\nPlease follow the modrinth/github/youtube instructions\nto set up Discord Chat Link Config\n\n(Click Here)")
+        Component msg = Component.translatable("Discord bot is not initialized:").withStyle(ChatFormatting.DARK_GREEN)
+                .append("Please follow the modrinth/github/youtube instructions\nto set up Discord Chat Link Config\n\n").withStyle(ChatFormatting.GREEN)
+                .append("(Click Here)")
                 .withStyle(Style.EMPTY
                         .withClickEvent(click)
                         .withHoverEvent(hoverEvent)

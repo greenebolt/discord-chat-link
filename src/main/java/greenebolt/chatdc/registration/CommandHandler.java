@@ -45,7 +45,7 @@ public class CommandHandler {
         String token = StringArgumentType.getString(context, "token");
         Config.BOT_TOKEN = token;
         Config.save();
-        Component msg = Component.translatable("Set discord bot token to: \"%s\"", token)
+        Component msg = Component.translatable("Set discord bot token to: \"%s\". \n\nRun /start-discord-chat-link", token)
                 .withStyle(ChatFormatting.GREEN);
         Minecraft.getInstance().player.displayClientMessage(msg, false);
         return 1;

@@ -25,14 +25,16 @@ public class BotReady extends ListenerAdapter {
             guild = event.getJDA().getGuildById(Config.GUILD_ID);
         } catch (Exception e) {
             DiscordChatLink.LOGGER.info("Error loading server: " + e);
-            Util.SendConfigMessage(mc, "Error with loading discord server: The provided server id is invalid. Use /setchannel from discord.");
+            Config.CurrentDCLError = "Error with loading discord server: The provided server id is invalid. Use /setchannel from discord.";
+            Util.SendConfigMessage(mc, "No valid discord channel exists: Run /setchannel from discord.");
             return;
         }
         try {
             DiscordChatLink.channel = guild.getTextChannelById(Config.CHANNEL_ID);
         } catch (Exception e) {
             DiscordChatLink.LOGGER.info("Error loading channel: " + e);
-            Util.SendConfigMessage(mc, "Error with loading discord channel: The provided channel id is invalid. Use /setchannel from discord.");
+            Config.CurrentDCLError = "Error with loading discord channel: The provided channel id is invalid. Use /setchannel from discord.";
+            Util.SendConfigMessage(mc, "No valid discord channel exists: Run /setchannel from discord.");
             return;
         }
         DiscordChatLink.JDAActive = true;

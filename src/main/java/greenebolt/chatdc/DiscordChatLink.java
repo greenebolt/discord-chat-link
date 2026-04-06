@@ -40,7 +40,7 @@ public class DiscordChatLink implements ModInitializer {
 
 		// Initialize config
 		Minecraft mc = Minecraft.getInstance();
-		config = new Config(mc.gameDirectory.getAbsolutePath() + File.separator + "config" + File.separator + "DiscordChatLinkConfig.cfg");
+		config = new Config(mc.gameDirectory.getAbsolutePath() + File.separator + "config" + File.separator + "discordchatlink" + File.separator + "DiscordChatLinkConfig.cfg");
 		config.read();
 
 		InitializeDiscrdBot();
@@ -95,12 +95,14 @@ public class DiscordChatLink implements ModInitializer {
 
 		} catch (Exception e) {
 			LOGGER.info("Error with loading discord bot: " + e);
-			if (Minecraft.getInstance().player == null) return;
 			if (e.toString().contains("The provided token is invalid!")) {
-				Util.SendConfigMessage(Minecraft.getInstance(), "Error with loading discord bot: The provided token is invalid. Use /set-discord-bot-token");
+				Config.CurrentDCLError = "Discord bot token is not defined: Run /set-bot-token";
+				if (Minecraft.getInstance().player == null) return;
+				Util.SendConfigMessage(Minecraft.getInstance(), "Discord bot token is not defined: Run /set-bot-token");
 				return;
 			}
-			Minecraft.getInstance().player.displayClientMessage(Component.translatable("Error with loading discord bot: " + e).withStyle(ChatFormatting.RED), false);
+			if (Minecraft.getInstance().player == null) return;
+			Minecraft.getInstance().player.displayClientMessage(Component.translatable("Error loading discord bot: " + e).withStyle(ChatFormatting.RED), false); // IDK how you could manage to get this...
 		}
 
 	}

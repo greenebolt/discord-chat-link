@@ -2,8 +2,8 @@
 	"schemaVersion": 1,
 	"id": "discord-chat-link",
 	"version": "${version}",
-	"name": "discord-chat-link",
-	"description": "Bi-Directional Communication between your client and Discord.",
+	"name": "Discord Chat Link",
+	"description": "Bi-Directional Communication between your Minecraft client and Discord.",
 	"authors": [
 		"GreeneBolt"
 	],
