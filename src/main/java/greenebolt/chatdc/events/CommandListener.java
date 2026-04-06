@@ -28,7 +28,7 @@ public class CommandListener extends ListenerAdapter {
 
                 Minecraft mc = Minecraft.getInstance();
                 mc.execute(() -> {
-                    if (mc.player != null) mc.player.displayClientMessage(Component.translatable("Discord channel: \"" + event.getChannel().getName() + "\" is now connected...").withStyle(ChatFormatting.GREEN), false);
+                    if (mc.player != null) mc.player.sendSystemMessage(Component.translatable("Discord channel: \"" + event.getChannel().getName() + "\" is now connected...").withStyle(ChatFormatting.GREEN));
                 });
             }
 
@@ -50,7 +50,7 @@ public class CommandListener extends ListenerAdapter {
                     event.reply("Taking Screenshot...").setEphemeral(true).queue();
                     Screenshot.grab(mc.gameDirectory, mc.getMainRenderTarget(), message -> mc.execute(() -> {
 
-                        if (mc.player != null) mc.player.displayClientMessage(Component.translatable("Discord Took Screenshot...").withStyle(ChatFormatting.UNDERLINE), false);
+                        if (mc.player != null) mc.player.sendSystemMessage(Component.translatable("Discord Took Screenshot...").withStyle(ChatFormatting.UNDERLINE));
                         File screenshot = Util.GetMostRecentFile(mc.gameDirectory + "/screenshots");
                         DiscordChatLink.channel.sendFiles(FileUpload.fromData(screenshot)).queue();
 

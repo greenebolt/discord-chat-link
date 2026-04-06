@@ -1,11 +1,12 @@
 package greenebolt.chatdc.registration;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import greenebolt.chatdc.Config;
 import greenebolt.chatdc.utils.Util;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -17,9 +18,9 @@ public class CommandHandler {
         ClientCommandRegistrationCallback.EVENT.register(
                 (dispatcher, registryAccess) -> dispatcher.register(
 
-                        ClientCommandManager.literal("set-discord-bot-token")
+                        ClientCommands.literal("set-discord-bot-token")
                                 .then(
-                                        ClientCommandManager.argument("token", StringArgumentType.string())
+                                        ClientCommands.argument("token", StringArgumentType.string())
                                                 .executes(CommandHandler::setToken)
                                 )
                 )
@@ -27,14 +28,14 @@ public class CommandHandler {
         ClientCommandRegistrationCallback.EVENT.register(
                 (dispatcher, registryAccess) -> dispatcher.register(
 
-                        ClientCommandManager.literal("start-discord-chat-link")
+                        ClientCommands.literal("start-discord-chat-link")
                                 .executes(CommandHandler::start)
                 )
         );
         ClientCommandRegistrationCallback.EVENT.register(
                 (dispatcher, registryAccess) -> dispatcher.register(
 
-                        ClientCommandManager.literal("stop-discord-chat-link")
+                        ClientCommands.literal("stop-discord-chat-link")
                                 .executes(CommandHandler::stop)
                 )
         );
@@ -47,7 +48,7 @@ public class CommandHandler {
         Config.save();
         Component msg = Component.translatable("Set discord bot token to: \"%s\". \n\nRun /start-discord-chat-link", token)
                 .withStyle(ChatFormatting.GREEN);
-        Minecraft.getInstance().player.displayClientMessage(msg, false);
+        Minecraft.getInstance().player.sendSystemMessage(msg);
         return 1;
     }
     private static int start(CommandContext<FabricClientCommandSource> context){

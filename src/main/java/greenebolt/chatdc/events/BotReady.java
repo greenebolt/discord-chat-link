@@ -39,7 +39,7 @@ public class BotReady extends ListenerAdapter {
         }
         DiscordChatLink.JDAActive = true;
         DiscordChatLink.channel.sendMessage("[ACTIVATED]").queue();
-        if (player != null) Minecraft.getInstance().player.displayClientMessage(Component.translatable("Discord bot online!").withStyle(ChatFormatting.GREEN), false);
+        if (player != null) Minecraft.getInstance().player.sendSystemMessage(Component.translatable("Discord bot online!").withStyle(ChatFormatting.GREEN));
     }
 
     @Override
@@ -48,6 +48,6 @@ public class BotReady extends ListenerAdapter {
         Minecraft client = Minecraft.getInstance();
         if (client.player == null) return;
         if (DiscordChatLink.channel == null) return;
-        client.execute(() -> client.player.displayClientMessage(Component.translatable("Discord Bot has shut down!").withStyle(ChatFormatting.GREEN), false));
+        client.execute(() -> client.player.sendSystemMessage(Component.translatable("Discord Bot has shut down!").withStyle(ChatFormatting.GREEN)));
     }
 }

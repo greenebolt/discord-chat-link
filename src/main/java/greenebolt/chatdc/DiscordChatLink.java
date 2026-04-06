@@ -1,5 +1,6 @@
 package greenebolt.chatdc;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import greenebolt.chatdc.events.CommandListener;
 import greenebolt.chatdc.registration.ChatListeners;
 import greenebolt.chatdc.registration.CommandHandler;
@@ -102,7 +103,7 @@ public class DiscordChatLink implements ModInitializer {
 				return;
 			}
 			if (Minecraft.getInstance().player == null) return;
-			Minecraft.getInstance().player.displayClientMessage(Component.translatable("Error loading discord bot: " + e).withStyle(ChatFormatting.RED), false); // IDK how you could manage to get this...
+			Minecraft.getInstance().player.sendSystemMessage(Component.translatable("Error loading discord bot: " + e).withStyle(ChatFormatting.RED)); // IDK how you could manage to get this...
 		}
 
 	}

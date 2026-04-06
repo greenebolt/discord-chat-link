@@ -19,37 +19,37 @@ public class Util {
         Minecraft mc = Minecraft.getInstance();
         if (mc.getSingleplayerServer() != null) {
             mc.execute(() -> {
-                mc.disconnectFromWorld(Component.translatable("Discord quit world"));
+                mc.disconnectFromWorld(Component.translatable("Discord Quit World!"));
             });
             return;
         }
         if (mc.player == null) return;
         mc.execute(() -> {
-            mc.disconnect(new TitleScreen(), false);
+            mc.getConnection().getConnection().disconnect(Component.translatable("Discord Quit World!"));
         });
     }
     public static void Start() {
         if (DiscordChatLink.JDAActive) {
-            Minecraft.getInstance().player.displayClientMessage(Component.translatable("Discord bot is already online! Use \"/stop-discord-chat-link\" first if you wish to restart.").withStyle(ChatFormatting.RED), false);
+            Minecraft.getInstance().player.sendSystemMessage(Component.translatable("Discord bot is already online! Use \"/stop-discord-chat-link\" first if you wish to restart.").withStyle(ChatFormatting.RED));
             return;
         }
         if (DiscordChatLink.jda != null) {
             if (DiscordChatLink.jda.getStatus() != JDA.Status.SHUTDOWN) {
                 DiscordChatLink.LOGGER.info("Can't start bot because it's status is: " + DiscordChatLink.jda.getStatus());
-                Minecraft.getInstance().player.displayClientMessage(Component.translatable("Can't start bot because it's status is: " + DiscordChatLink.jda.getStatus()).withStyle(ChatFormatting.RED), false);
+                Minecraft.getInstance().player.sendSystemMessage(Component.translatable("Can't start bot because it's status is: " + DiscordChatLink.jda.getStatus()).withStyle(ChatFormatting.RED));
                 return;
             }
         }
-        Minecraft.getInstance().player.displayClientMessage(Component.translatable("Starting Discord Chat Link... ").withStyle(ChatFormatting.GREEN), false);
+        Minecraft.getInstance().player.sendSystemMessage(Component.translatable("Starting Discord Chat Link... ").withStyle(ChatFormatting.GREEN));
         DiscordChatLink.InitializeDiscrdBot();
     }
     public static void Stop(String caller) {
 
         Player player = Minecraft.getInstance().player;
         if (DiscordChatLink.JDAActive) {
-            if (player != null && caller.equals("CommandHandler")) player.displayClientMessage(Component.translatable("Discord bot is shutting down...").withStyle(ChatFormatting.GREEN), false);
+            if (player != null && caller.equals("CommandHandler")) player.sendSystemMessage(Component.translatable("Discord bot is shutting down...").withStyle(ChatFormatting.GREEN));
         } else {
-            if (player != null && caller.equals("CommandHandler")) player.displayClientMessage(Component.translatable("Discord bot is already offline or shutting down...").withStyle(ChatFormatting.RED), false);
+            if (player != null && caller.equals("CommandHandler")) player.sendSystemMessage(Component.translatable("Discord bot is already offline or shutting down...").withStyle(ChatFormatting.RED));
         }
 
         DiscordChatLink.LOGGER.info("Stopping Discord Bot");
@@ -71,18 +71,16 @@ public class Util {
         String url = "https://github.com/greenebolt/discord-chat-link";
         ClickEvent click = new ClickEvent.OpenUrl(URI.create(url));
         HoverEvent hoverEvent = new HoverEvent.ShowText(Component.translatable(url));
-        Component msg = Component.translatable("Discord bot is not initialized:").withStyle(ChatFormatting.DARK_GREEN)
-                .append("Please follow the modrinth/github/youtube instructions\nto set up Discord Chat Link Config\n\n").withStyle(ChatFormatting.GREEN)
-                .append("(Click Here)")
+        Component msg = Component.translatable("Discord bot is not initialized: Please follow the modrinth/github/youtube instructions\nto set up Discord Chat Link Config\n\n(Click Here)")
                 .withStyle(Style.EMPTY
                         .withClickEvent(click)
                         .withHoverEvent(hoverEvent)
                         .withColor(ChatFormatting.GREEN));
 
         client.execute(() -> {
-            client.player.displayClientMessage(msg, false);
+            client.player.sendSystemMessage(msg);
             if (error != null)
-                client.player.displayClientMessage(Component.translatable(error).withStyle(ChatFormatting.RED), false);
+                client.player.sendSystemMessage(Component.translatable(error).withStyle(ChatFormatting.RED));
         });
     }
 
