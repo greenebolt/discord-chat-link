@@ -48,7 +48,7 @@ public class CommandListener extends ListenerAdapter {
                 Minecraft mc = Minecraft.getInstance();
                 mc.execute(() -> {
                     event.reply("Taking Screenshot...").setEphemeral(true).queue();
-                    Screenshot.grab(mc.gameDirectory, mc.getMainRenderTarget(), message -> mc.execute(() -> {
+                    Screenshot.grab(mc.gameDirectory, mc.gameRenderer.mainRenderTarget(), message -> mc.execute(() -> {
 
                         if (mc.player != null) mc.player.sendSystemMessage(Component.translatable("Discord Took Screenshot...").withStyle(ChatFormatting.UNDERLINE));
                         File screenshot = Util.GetMostRecentFile(mc.gameDirectory + "/screenshots");
