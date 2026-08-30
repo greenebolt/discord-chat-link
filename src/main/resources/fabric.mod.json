@@ -1,0 +1,28 @@
+{
+	"schemaVersion": 1,
+	"id": "discord-chat-link",
+	"version": "${version}",
+	"name": "Discord Chat Link",
+	"description": "Bi-Directional Communication between your Minecraft client and Discord.",
+	"authors": [
+		"GreeneBolt"
+	],
+	"contact": {
+		"homepage": "https://github.com/greenebolt/discord-chat-link",
+		"sources": "https://github.com/greenebolt/discord-chat-link"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/discord-chat-link/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+          "greenebolt.chatdc.DiscordChatLink"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
