@@ -16,13 +16,13 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-          "greenebolt.chatdc.DiscordChatLink"
+			"greenebolt.chatdc.DiscordChatLink"
 		]
 	},
 	"depends": {
 		"fabricloader": ">=0.19.3",
-		"minecraft": "~1.21.11",
-		"java": ">=21",
+		"minecraft": "~26.2",
+		"java": ">=25",
 		"fabric-api": "*"
 	}
 }

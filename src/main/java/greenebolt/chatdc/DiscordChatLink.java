@@ -103,7 +103,7 @@ public class DiscordChatLink implements ModInitializer {
 				return;
 			}
 			if (Minecraft.getInstance().player == null) return;
-			Minecraft.getInstance().player.displayClientMessage(Component.translatable("Error loading discord bot: " + e).withStyle(ChatFormatting.RED), false); // IDK how you could manage to get this...
+			Minecraft.getInstance().player.sendSystemMessage(Component.translatable("Error loading discord bot: " + e).withStyle(ChatFormatting.RED)); // IDK how you could manage to get this...
 		}
 
 	}

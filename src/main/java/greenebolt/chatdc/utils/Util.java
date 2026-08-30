@@ -30,26 +30,26 @@ public class Util {
     }
     public static void Start() {
         if (DiscordChatLink.JDAActive) {
-            Minecraft.getInstance().player.displayClientMessage(Component.translatable("Discord bot is already online! Use \"/stop-discord-chat-link\" first if you wish to restart.").withStyle(ChatFormatting.RED), false);
+            Minecraft.getInstance().player.sendSystemMessage(Component.translatable("Discord bot is already online! Use \"/stop-discord-chat-link\" first if you wish to restart.").withStyle(ChatFormatting.RED));
             return;
         }
         if (DiscordChatLink.jda != null) {
             if (DiscordChatLink.jda.getStatus() != JDA.Status.SHUTDOWN) {
                 DiscordChatLink.LOGGER.info("Can't start bot because it's status is: " + DiscordChatLink.jda.getStatus());
-                Minecraft.getInstance().player.displayClientMessage(Component.translatable("Can't start bot because it's status is: " + DiscordChatLink.jda.getStatus()).withStyle(ChatFormatting.RED), false);
+                Minecraft.getInstance().player.sendSystemMessage(Component.translatable("Can't start bot because it's status is: " + DiscordChatLink.jda.getStatus()).withStyle(ChatFormatting.RED));
                 return;
             }
         }
-        Minecraft.getInstance().player.displayClientMessage(Component.translatable("Starting Discord Chat Link... ").withStyle(ChatFormatting.GREEN), false);
+        Minecraft.getInstance().player.sendSystemMessage(Component.translatable("Starting Discord Chat Link... ").withStyle(ChatFormatting.GREEN));
         DiscordChatLink.InitializeDiscrdBot();
     }
     public static void Stop(String caller) {
 
         Player player = Minecraft.getInstance().player;
         if (DiscordChatLink.JDAActive) {
-            if (player != null && caller.equals("CommandHandler")) player.displayClientMessage(Component.translatable("Discord bot is shutting down...").withStyle(ChatFormatting.GREEN), false);
+            if (player != null && caller.equals("CommandHandler")) player.sendSystemMessage(Component.translatable("Discord bot is shutting down...").withStyle(ChatFormatting.GREEN));
         } else {
-            if (player != null && caller.equals("CommandHandler")) player.displayClientMessage(Component.translatable("Discord bot is already offline or shutting down...").withStyle(ChatFormatting.RED), false);
+            if (player != null && caller.equals("CommandHandler")) player.sendSystemMessage(Component.translatable("Discord bot is already offline or shutting down...").withStyle(ChatFormatting.RED));
         }
 
         DiscordChatLink.LOGGER.info("Stopping Discord Bot");
@@ -78,9 +78,9 @@ public class Util {
                         .withColor(ChatFormatting.GREEN));
 
         client.execute(() -> {
-            client.player.displayClientMessage(msg, false);
+            client.player.sendSystemMessage(msg);
             if (error != null)
-                client.player.displayClientMessage(Component.translatable(error).withStyle(ChatFormatting.RED), false);
+                client.player.sendSystemMessage(Component.translatable(error).withStyle(ChatFormatting.RED));
         });
     }
 
